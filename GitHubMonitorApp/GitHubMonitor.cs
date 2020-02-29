@@ -26,7 +26,8 @@ namespace GitHubMonitorApp
 
             log.LogInformation(JsonConvert.SerializeObject(data));
 
-            return new OkObjectResult(new NonceObject { Nonce = Guid.NewGuid() });
+            //return new OkObjectResult(new NonceObject { Nonce = Guid.NewGuid() });
+            return new OkResult();
         }
 
 
