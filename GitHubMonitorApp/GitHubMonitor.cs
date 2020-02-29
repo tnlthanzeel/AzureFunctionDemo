@@ -26,12 +26,17 @@ namespace GitHubMonitorApp
 
             log.LogInformation(JsonConvert.SerializeObject(data));
 
-            return new OkResult();
+            return new OkObjectResult(new NonceObject { Nonce = Guid.NewGuid() });
         }
 
 
+        private class NonceObject
+        {
+            [JsonProperty("Nonce")]
+            public Guid Nonce { get; set; }
+        }
 
-        public class Rootobject
+        private class Rootobject
         {
             public string zen { get; set; }
             public int hook_id { get; set; }
