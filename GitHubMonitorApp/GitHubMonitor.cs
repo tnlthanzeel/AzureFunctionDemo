@@ -7,11 +7,19 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Bread2Bun.Service.Security.Interface;
+using Bread2Bun.Service.Country.Interface;
 
 namespace GitHubMonitorApp
 {
     public class GitHubMonitor
     {
+        private readonly ICountryService countryService;
+
+        public GitHubMonitor(ICountryService countryService)
+        {
+            this.countryService = countryService;
+        }
 
         //name of the trigger that will be used by azure
         [FunctionName("GitHubMonitor")]
@@ -20,15 +28,30 @@ namespace GitHubMonitorApp
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("Our github monitor processed an action");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            //var data = JsonConvert.DeserializeObject<Rootobject>(requestBody);
+            try
+            {
+                var result = await countryService.GetCountries();
 
-            //log.LogInformation(JsonConvert.SerializeObject(data));
+                //*** read body of the request and to deserialize to a type ********
 
-            //return new OkObjectResult(new NonceObject { Nonce = Guid.NewGuid() });
-            return new OkResult();
+                //string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                //var data = JsonConvert.DeserializeObject<Rootobject>(requestBody);
+
+                //***END read body of the request and to deserialize to a type ********
+
+
+                //to return a response body with https status code 200
+                return new OkObjectResult(result);
+
+
+                // to return http status code 200 without response body
+                //return new OkResult();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
