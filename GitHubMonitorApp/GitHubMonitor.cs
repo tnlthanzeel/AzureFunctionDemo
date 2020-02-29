@@ -10,11 +10,12 @@ using Newtonsoft.Json;
 
 namespace GitHubMonitorApp
 {
-    public static class GitHubMonitor
+    public class GitHubMonitor
     {
+
         //name of the trigger that will be used by azure
         [FunctionName("GitHubMonitor")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             //           1. autherization level       2. http verbs  3. custome route            
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
