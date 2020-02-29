@@ -33,7 +33,7 @@ namespace GitHubMonitorApp
 
         private class NonceObject
         {
-            [JsonProperty("Nonce")]
+            //[JsonProperty("Nonce")]
             public Guid Nonce { get; set; }
         }
 
