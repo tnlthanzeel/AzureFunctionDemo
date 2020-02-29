@@ -23,7 +23,7 @@ namespace GitHubMonitorApp
 
         //name of the trigger that will be used by azure
         [FunctionName("GitHubMonitor")]
-        public async Task<IActionResult> Run(
+        public async Task<IActionResult> GetCountries(
             //           1. autherization level       2. http verbs  3. custome route            
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
