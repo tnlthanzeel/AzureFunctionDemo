@@ -34,7 +34,6 @@ namespace GitHubMonitorApp
                 var result = await countryService.GetCountries();
 
                 //*** read body of the request and to deserialize to a type ********
-
                 //string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 //var data = JsonConvert.DeserializeObject<Rootobject>(requestBody);
 
@@ -42,7 +41,8 @@ namespace GitHubMonitorApp
 
 
                 //to return a response body with https status code 200
-                return new OkObjectResult(result);
+                return new OkObjectResult(new { result = "Success from github monitor app" });
+
 
 
                 // to return http status code 200 without response body
@@ -61,7 +61,7 @@ namespace GitHubMonitorApp
             public Guid Nonce { get; set; }
         }
 
-        private class Rootobject
+        public class Rootobject
         {
             public string zen { get; set; }
             public int hook_id { get; set; }
