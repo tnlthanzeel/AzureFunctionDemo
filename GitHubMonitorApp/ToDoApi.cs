@@ -24,6 +24,7 @@ namespace GitHubMonitorApp
         public static async Task<IActionResult> CreateToDo(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "todo")] HttpRequest req,
             [Table(TableTorage.Table.Name.ToDos, Connection = "AzureWebJobsStorage")]IAsyncCollector<Todo> todoTable,
+            [Queue(TableTorage.Table.Name.ToDos, Connection = "AzureWebJobsStorage")]IAsyncCollector<TodoModel> todoQueue,
             ILogger log)
         {
             log.LogInformation("creating a new todo list item");
@@ -34,7 +35,7 @@ namespace GitHubMonitorApp
             var todo = new TodoModel { TaskDescription = input.TaskDescription };
 
             await todoTable.AddAsync(todo.ToTableEntity());
-
+            await todoQueue.AddAsync(todo);
             return new OkObjectResult(todo);
         }
 
